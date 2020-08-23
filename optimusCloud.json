@@ -32,6 +32,100 @@
         }
     ],
     "paths": {
+        "/devices/search/findAllByBuildId": {
+            "get": {
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Find all the devices by build id only",
+                "parameters": [
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "description": "build id of the device",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/deviceByBuildAndUdid"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/{deviceId}": {
+            "put": {
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Update device details",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "device id which needs to be updated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceId"
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {}
+                }
+            },
+            "get": {
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get device details for the given id",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "description": "id of the device",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceId"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/device/search/findByBuildIdAndUdid": {
             "get": {
                 "tags": [
@@ -207,37 +301,156 @@
     },
     "components": {
         "schemas": {
-            "Order": {
-                "type": "object",
+            "DeviceId": {
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "petId": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "quantity": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "shipDate": {
                         "type": "string",
-                        "format": "date-time"
+                        "example": "5f4262efa7b11b0001936a16"
+                    },
+                    "platform": {
+                        "type": "string",
+                        "example": "ANDROID"
                     },
                     "status": {
                         "type": "string",
-                        "description": "Order Status",
-                        "enum": [
-                            "placed",
-                            "approved",
-                            "delivered"
-                        ]
+                        "example": "Available"
                     },
-                    "complete": {
-                        "type": "boolean",
-                        "default": false
+                    "deviceName": {
+                        "type": "string",
+                        "example": "Pixel 2 XL"
+                    },
+                    "platformVersion": {
+                        "type": "string",
+                        "example": "10"
+                    },
+                    "udid": {
+                        "type": "string",
+                        "example": "xxxxxxxxxxxx"
+                    },
+                    "runsOn": {
+                        "type": "string",
+                        "example": "DEVICE"
+                    },
+                    "created_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-08-23T12:37:03.142+0000"
+                    },
+                    "buildId": {
+                        "type": "string",
+                        "example": "5f4262e7a7b11b0001936a15"
+                    },
+                    "screenshot": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string",
+                                    "example": "self"
+                                },
+                                "href": {
+                                    "type": "string",
+                                    "example": "http://localhost:8090/v1/devices/5f4262efa7b11b0001936a16"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deviceByBuildAndUdid": {
+                "properties": {
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string",
+                                    "example": "self"
+                                },
+                                "href": {
+                                    "type": "string",
+                                    "example": "http://localhost:8090/v1/devices/search/findAllByBuildId?buildId=5f30f2fabfe5230001be2bbe"
+                                }
+                            }
+                        }
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "example": "5f30f2fbbfe5230001be2bbf"
+                                },
+                                "platform": {
+                                    "type": "string",
+                                    "example": "Android"
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "Available"
+                                },
+                                "deviceName": {
+                                    "type": "string",
+                                    "example": "COL-AL10"
+                                },
+                                "platformVersion": {
+                                    "type": "string",
+                                    "example": "10"
+                                },
+                                "udid": {
+                                    "type": "string",
+                                    "example": "xxxxxxxxxxxxxx"
+                                },
+                                "runsOn": {
+                                    "type": "string",
+                                    "example": "DEVICE"
+                                },
+                                "created_date": {
+                                    "type": "string",
+                                    "example": "2020-08-10T07:10:51.611+0000"
+                                },
+                                "buildId": {
+                                    "type": "string",
+                                    "example": "5f30f2fabfe5230001be2bbe"
+                                },
+                                "screenshot": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "content": {
+                                    "type": "array",
+                                    "items": {}
+                                },
+                                "links": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "rel": {
+                                                "type": "string",
+                                                "example": "self"
+                                            },
+                                            "href": {
+                                                "type": "string",
+                                                "example": "http://localhost:8090/v1/devices/5f30f2fbbfe5230001be2bbf"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
