@@ -20,22 +20,279 @@
     },
     "tags": [
         {
-            "name": "builds",
+            "name": "Builds",
             "description": "Everything about the builds",
             "externalDocs": {
                 "url": "to be added later"
             }
         },
         {
-            "name": "devices",
+            "name": "Devices",
             "description": "Everything about the devices"
+        },
+        {
+            "name": "Scenarios",
+            "description": "Everything about scenarios"
+        },
+        {
+            "name": "Screenshots",
+            "description": "Everything about the screenshots"
         }
     ],
     "paths": {
+        "/scenarios/search/findByBuildIdAndDeviceIdAndActivity": {
+            "get": {
+                "tags": [
+                    "Scenarios"
+                ],
+                "summary": "Find scenario by given build-id, device-id and activity",
+                "parameters": [
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "deviceId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "activity",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/findByBuildIdAndDeviceIdAndActivity"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/screenshots": {
+            "post": {
+                "tags": [
+                    "Screenshots"
+                ],
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "schema": {
+                                "example": "5f42ba8ba7b11b0001936a52_1"
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/screenshotRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        },
+        "/scenarios/distinct": {
+            "get": {
+                "tags": [
+                    "Scenarios"
+                ],
+                "summary": "Get distinct scenarios",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/distinct"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scenarios/distinctDeviceId": {
+            "get": {
+                "tags": [
+                    "Scenarios"
+                ],
+                "summary": "Get distinct scenario by device id",
+                "parameters": [
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/distinctScenario"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scenarios/search/countByBuildIdAndStatus": {
+            "get": {
+                "tags": [
+                    "Scenarios"
+                ],
+                "summary": "Get count of scenarios by build id and status",
+                "parameters": [
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "schema": {
+                                "example": "1"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scenarios/search/countByBuildId": {
+            "get": {
+                "tags": [
+                    "Scenarios"
+                ],
+                "summary": "Get total scenarios by build id",
+                "parameters": [
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "required": true,
+                        "description": "unique build id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "schema": {
+                                "example": "1"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/scenarios": {
+            "patch": {
+                "tags": [
+                    "Scenarios"
+                ],
+                "summary": "update an existing scenario",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/scenarioUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/scenarioUpdateResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Scenarios"
+                ],
+                "summary": "Create a new scenario",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/scenarioRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/scenarioResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/devices/search/findAllByBuildId": {
             "get": {
                 "tags": [
-                    "devices"
+                    "Devices"
                 ],
                 "summary": "Find all the devices by build id only",
                 "parameters": [
@@ -66,7 +323,7 @@
         "/devices/{deviceId}": {
             "put": {
                 "tags": [
-                    "devices"
+                    "Devices"
                 ],
                 "summary": "Update device details",
                 "parameters": [
@@ -98,7 +355,7 @@
             },
             "get": {
                 "tags": [
-                    "devices"
+                    "Devices"
                 ],
                 "summary": "Get device details for the given id",
                 "parameters": [
@@ -129,7 +386,7 @@
         "/device/search/findByBuildIdAndUdid": {
             "get": {
                 "tags": [
-                    "devices"
+                    "Devices"
                 ],
                 "summary": "Find all the devices by a build id",
                 "parameters": [
@@ -172,15 +429,15 @@
                 }
             }
         },
-        "/builds/{build-id}": {
+        "/builds/{buildId}": {
             "patch": {
                 "tags": [
-                    "builds"
+                    "Builds"
                 ],
                 "summary": "Updates a particular build",
                 "parameters": [
                     {
-                        "name": "build-id",
+                        "name": "buildId",
                         "in": "path",
                         "description": "build which needs an update",
                         "required": true,
@@ -217,7 +474,7 @@
         "/builds/search/findById": {
             "get": {
                 "tags": [
-                    "builds"
+                    "Builds"
                 ],
                 "description": "",
                 "parameters": [
@@ -249,7 +506,7 @@
         "/builds": {
             "post": {
                 "tags": [
-                    "builds"
+                    "Builds"
                 ],
                 "summary": "create a build",
                 "requestBody": {
@@ -277,7 +534,7 @@
             },
             "get": {
                 "tags": [
-                    "builds"
+                    "Builds"
                 ],
                 "summary": "Get details about all the builds",
                 "responses": {
@@ -301,6 +558,735 @@
     },
     "components": {
         "schemas": {
+            "screenshotRequest": {
+                "type": "object",
+                "properties": {
+                    "fileName": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            },
+            "findByBuildIdAndDeviceIdAndActivity": {
+                "type": "object",
+                "properties": {
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string",
+                                    "example": "self"
+                                },
+                                "href": {
+                                    "type": "string",
+                                    "example": "http://localhost:8090/v1/scenarios/search/findByBuildIdAndDeviceIdAndActivity/?buildId=5f4281fba7b11b0001936a22&deviceId=5f428203a7b11b0001936a23"
+                                }
+                            }
+                        }
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "example": "5f428203a7b11b0001936a24"
+                                },
+                                "featureName": {
+                                    "type": "string",
+                                    "example": "Tests"
+                                },
+                                "scenarioName": {
+                                    "type": "string",
+                                    "example": "iShouldBeAbleToSeeTheWelcomeScreen"
+                                },
+                                "dataRowNumber": {
+                                    "type": "number",
+                                    "example": "0"
+                                },
+                                "location": {
+                                    "type": "number",
+                                    "example": "0"
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "example": "test"
+                                    }
+                                },
+                                "startTime": {
+                                    "type": "string",
+                                    "example": "2020-08-23T14:49:39.507+0000"
+                                },
+                                "buildId": {
+                                    "type": "string",
+                                    "example": "5f4281fba7b11b0001936a22"
+                                },
+                                "deviceId": {
+                                    "type": "string",
+                                    "example": "5f428203a7b11b0001936a23"
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "passed"
+                                },
+                                "completed": {
+                                    "type": "boolean"
+                                },
+                                "endTime": {
+                                    "type": "string",
+                                    "example": "2020-08-23T14:49:42.068+0000"
+                                },
+                                "timeTaken": {
+                                    "type": "number",
+                                    "example": "2"
+                                },
+                                "scenarioTimeline": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "interval": {
+                                                "type": "string",
+                                                "example": "1"
+                                            },
+                                            "cpuData": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "user": {
+                                                        "type": "string",
+                                                        "example": "3%"
+                                                    },
+                                                    "Kernel": {
+                                                        "type": "string",
+                                                        "example": "3.2%"
+                                                    }
+                                                }
+                                            },
+                                            "memoryData": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "total": {
+                                                        "type": "string",
+                                                        "example": "90.171875"
+                                                    },
+                                                    "actual": {
+                                                        "type": "string",
+                                                        "example": "70.0"
+                                                    }
+                                                }
+                                            },
+                                            "screenshotFileName": {
+                                                "type": "string",
+                                                "example": "5f428203a7b11b0001936a24_1"
+                                            }
+                                        }
+                                    }
+                                },
+                                "steps": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "status": {
+                                                "type": "string",
+                                                "example": "passed"
+                                            },
+                                            "keyword": {
+                                                "type": "string",
+                                                "example": "Description: "
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "No Description found!!"
+                                            },
+                                            "duration": {
+                                                "type": "string",
+                                                "example": "3187"
+                                            }
+                                        }
+                                    }
+                                },
+                                "failedOnScreen": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "stacktrace": {
+                                    "type": "string",
+                                    "format": "nullable"
+                                },
+                                "activity": {
+                                    "type": "string",
+                                    "format": "nullable"
+                                },
+                                "created_date": {
+                                    "type": "string",
+                                    "example": "2020-08-23T14:49:39.756+0000"
+                                },
+                                "content": {
+                                    "type": "array",
+                                    "items": {}
+                                },
+                                "links": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "rel": {
+                                                "type": "string",
+                                                "example": "self"
+                                            },
+                                            "href": {
+                                                "type": "string",
+                                                "example": "http://localhost:8090/v1/scenarios/5f428203a7b11b0001936a24"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "distinct": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "scenarioName": {
+                            "type": "string",
+                            "example": "iShouldBeAbleToSeeTheWelcomeScreen"
+                        },
+                        "dataRowNumber": {
+                            "type": "number",
+                            "example": "0"
+                        },
+                        "status": {
+                            "type": "string",
+                            "example": "passed"
+                        },
+                        "created_date": {
+                            "type": "string",
+                            "example": "2020-07-23T15:49:00.664+0000"
+                        }
+                    }
+                }
+            },
+            "distinctScenario": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "format": "nullable"
+                        },
+                        "featureName": {
+                            "type": "string",
+                            "format": "nullable"
+                        },
+                        "scenarioName": {
+                            "type": "string",
+                            "format": "nullable"
+                        },
+                        "dataRowNumber": {
+                            "type": "number",
+                            "example": "0"
+                        },
+                        "location": {
+                            "type": "string",
+                            "format": "nullable"
+                        },
+                        "tags": {
+                            "type": "string",
+                            "format": "nullable"
+                        },
+                        "startTime": {
+                            "type": "string",
+                            "format": "nullable"
+                        },
+                        "buildId": {
+                            "type": "string",
+                            "example": "5f42aafda7b11b0001936a36"
+                        },
+                        "deviceId": {
+                            "type": "string",
+                            "example": "5f42ab04a7b11b0001936a37"
+                        },
+                        "status": {
+                            "type": "string",
+                            "example": "failed"
+                        },
+                        "completed": {
+                            "type": "boolean"
+                        },
+                        "endTime": {
+                            "type": "string",
+                            "example": "2020-08-23T17:44:52.605+0000"
+                        },
+                        "timeTaken": {
+                            "type": "number",
+                            "example": "0"
+                        },
+                        "scenarioTimeline": {
+                            "type": "string",
+                            "example": ""
+                        },
+                        "steps": {
+                            "type": "string",
+                            "example": ""
+                        },
+                        "failedOnScreen": {
+                            "type": "string",
+                            "example": ""
+                        },
+                        "stacktrace": {
+                            "type": "string",
+                            "format": "nullable"
+                        },
+                        "activity": {
+                            "type": "string",
+                            "format": "nullable"
+                        },
+                        "created_date": {
+                            "type": "string",
+                            "example": "2020-08-23T17:44:52.605+0000"
+                        }
+                    }
+                }
+            },
+            "scenarioUpdateResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "5f42a392a7b11b0001936a2f"
+                    },
+                    "featureName": {
+                        "type": "string",
+                        "example": "Tests"
+                    },
+                    "scenarioName": {
+                        "type": "string",
+                        "example": "iShouldBeAbleToSeeTheWelcomeScreen"
+                    },
+                    "dataRowNumber": {
+                        "type": "number",
+                        "example": "0"
+                    },
+                    "location": {
+                        "type": "number",
+                        "example": "0"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "items": {
+                                    "type": "string",
+                                    "example": "test"
+                                },
+                                "startTime": {
+                                    "type": "string",
+                                    "example": "2020-08-23T17:12:50.680+0000"
+                                },
+                                "buildId": {
+                                    "type": "string",
+                                    "example": "5f42a38ca7b11b0001936a2d"
+                                },
+                                "deviceId": {
+                                    "type": "string",
+                                    "example": "5f42a392a7b11b0001936a2e"
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "passed"
+                                },
+                                "completed": {
+                                    "type": "string",
+                                    "format": "nullable"
+                                },
+                                "endTime": {
+                                    "type": "string",
+                                    "example": "2020-08-23T17:12:51.416+0000"
+                                },
+                                "timeTaken": {
+                                    "type": "number",
+                                    "example": "0"
+                                },
+                                "scenarioTimeline": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "steps": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "status": {
+                                                "type": "string",
+                                                "example": "passed"
+                                            },
+                                            "keyword": {
+                                                "type": "string",
+                                                "example": "Description: "
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "No Description found!!"
+                                            },
+                                            "duration": {
+                                                "type": "number",
+                                                "example": "1188"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "failedOnScreen": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "stacktrace": {
+                        "type": "string",
+                        "format": "nullable"
+                    },
+                    "activity": {
+                        "type": "string",
+                        "format": "nullable"
+                    },
+                    "created_date": {
+                        "type": "string",
+                        "example": "2020-08-23T17:12:50.909+0000"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string",
+                                    "example": "self"
+                                },
+                                "href": {
+                                    "type": "string",
+                                    "example": "http://localhost:8090/v1/scenarios/5f42a392a7b11b0001936a2f"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "scenarioUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "5f42a392a7b11b0001936a2f"
+                    },
+                    "scenarioName": {
+                        "type": "string",
+                        "example": "iShouldBeAbleToSeeTheWelcomeScreen"
+                    },
+                    "dataRowNumber": {
+                        "type": "string",
+                        "example": "0"
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "0"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "test"
+                        }
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "example": "Sun Aug 23 22: 42: 50 IST 2020",
+                        "format": "date-time"
+                    },
+                    "buildId": {
+                        "type": "string",
+                        "example": "5f42a38ca7b11b0001936a2d"
+                    },
+                    "deviceId": {
+                        "type": "string",
+                        "example": "5f42a392a7b11b0001936a2e"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "passed"
+                    },
+                    "completed": {
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "endTime": {
+                        "type": "string",
+                        "example": "Sun Aug 23 22: 42: 51 IST 2020",
+                        "format": "date-time"
+                    },
+                    "timeTaken": {
+                        "type": "string",
+                        "example": "0"
+                    },
+                    "scenarioTimeline": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "steps": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "example": "passed"
+                                },
+                                "keyword": {
+                                    "type": "string",
+                                    "example": "Description: "
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "No Description found!!"
+                                },
+                                "duration": {
+                                    "type": "number",
+                                    "example": "1188"
+                                }
+                            }
+                        }
+                    },
+                    "failedOnScreen": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "stacktrace": {
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "activity": {
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "featureName": {
+                        "type": "string",
+                        "example": "Tests"
+                    },
+                    "featureFileName": {
+                        "type": "string",
+                        "example": "null"
+                    }
+                }
+            },
+            "scenarioResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "5f429d0ca7b11b0001936a29"
+                    },
+                    "featureName": {
+                        "type": "string",
+                        "example": "Tests"
+                    },
+                    "scenarioName": {
+                        "type": "string",
+                        "example": "someScenarioName"
+                    },
+                    "dataRowNumber": {
+                        "type": "number",
+                        "example": "0"
+                    },
+                    "location": {
+                        "type": "number",
+                        "example": "0"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "test"
+                        }
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "example": "2020-08-23T16:42:32.981+0000"
+                    },
+                    "buildId": {
+                        "type": "string",
+                        "example": "5f429c5ea7b11b0001936a27"
+                    },
+                    "deviceId": {
+                        "type": "string",
+                        "example": "5f429c77a7b11b0001936a28"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "skipped"
+                    },
+                    "completed": {
+                        "type": "string",
+                        "format": "nullable"
+                    },
+                    "endTime": {
+                        "type": "string",
+                        "example": "2020-08-23T16:42:32.981+0000",
+                        "format": "date-time"
+                    },
+                    "timeTaken": {
+                        "type": "string",
+                        "format": "nullable"
+                    },
+                    "scenarioTimeline": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "steps": {
+                        "type": "string",
+                        "example": "[]"
+                    },
+                    "failedOnScreen": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "stacktrace": {
+                        "type": "string",
+                        "format": "nullable"
+                    },
+                    "activity": {
+                        "type": "string",
+                        "format": "nullable"
+                    },
+                    "created_date": {
+                        "type": "string",
+                        "example": "2020-08-23T16:45:00.261+0000",
+                        "format": "date-time"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string",
+                                    "example": "self"
+                                },
+                                "href": {
+                                    "type": "string",
+                                    "example": "http://localhost:8090/v1/scenarios/5f429d0ca7b11b0001936a29"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "scenarioRequest": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "scenarioName": {
+                        "type": "string",
+                        "example": "someScenarioName"
+                    },
+                    "dataRowNumber": {
+                        "type": "string",
+                        "example": "0"
+                    },
+                    "location": {
+                        "type": "number",
+                        "example": "0"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "example": [
+                            "test"
+                        ],
+                        "format": "list"
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "example": "Sun Aug 23 22:12:32 IST 2020",
+                        "format": "date-time"
+                    },
+                    "buildId": {
+                        "type": "string",
+                        "example": "5f429c5ea7b11b0001936a27"
+                    },
+                    "deviceId": {
+                        "type": "string",
+                        "example": "5f429c77a7b11b0001936a28"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "skipped"
+                    },
+                    "completed": {
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "endTime": {
+                        "type": "string",
+                        "example": "Sun Aug 23 22:12:32 IST 2020",
+                        "format": "date-time"
+                    },
+                    "timeTaken": {
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "scenarioTimeline": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "steps": {
+                        "type": "string",
+                        "example": "[]"
+                    },
+                    "failedOnScreen": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "stacktrace": {
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "activity": {
+                        "type": "string",
+                        "example": "null"
+                    },
+                    "featureName": {
+                        "type": "string",
+                        "example": "Tests"
+                    },
+                    "featureFileName": {
+                        "type": "string",
+                        "example": "Tests"
+                    }
+                }
+            },
             "DeviceId": {
                 "properties": {
                     "id": {
