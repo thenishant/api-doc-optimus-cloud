@@ -1,0 +1,529 @@
+{
+    "openapi": "3.0.0",
+    "servers": [
+        {
+            "url": "http://localhost:8090/v1"
+        }
+    ],
+    "info": {
+        "description": "",
+        "version": "0.1",
+        "title": "Optimus-cloud api documentation",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "thenishant3@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "tags": [
+        {
+            "name": "builds",
+            "description": "Everything about the builds",
+            "externalDocs": {
+                "url": "to be added later"
+            }
+        },
+        {
+            "name": "devices",
+            "description": "Everything about the devices"
+        }
+    ],
+    "paths": {
+        "/device/search/findByBuildIdAndUdid": {
+            "get": {
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Find all the devices by a build id",
+                "parameters": [
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "description": "build id for which details needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "udid",
+                        "in": "query",
+                        "description": "udid of the device",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/deviceByBuildAndUdidRequest"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/builds/{build-id}": {
+            "patch": {
+                "tags": [
+                    "builds"
+                ],
+                "summary": "Updates a particular build",
+                "parameters": [
+                    {
+                        "name": "build-id",
+                        "in": "path",
+                        "description": "build which needs an update",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostBuild"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostBuild"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/builds/search/findById": {
+            "get": {
+                "tags": [
+                    "builds"
+                ],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID of build that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostBuildResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/builds": {
+            "post": {
+                "tags": [
+                    "builds"
+                ],
+                "summary": "create a build",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostBuild"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostBuildResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "builds"
+                ],
+                "summary": "Get details about all the builds",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetBuild"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    },
+    "components": {
+        "schemas": {
+            "Order": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "petId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "shipDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Order Status",
+                        "enum": [
+                            "placed",
+                            "approved",
+                            "delivered"
+                        ]
+                    },
+                    "complete": {
+                        "type": "boolean",
+                        "default": false
+                    }
+                }
+            },
+            "deviceByBuildAndUdidRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "5f4262efa7b11b0001936a16"
+                    },
+                    "platform": {
+                        "type": "string",
+                        "example": "ANDROID"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Available"
+                    },
+                    "deviceName": {
+                        "type": "string",
+                        "example": "Pixel 2 XL"
+                    },
+                    "platformVersion": {
+                        "type": "string",
+                        "example": "10"
+                    },
+                    "udid": {
+                        "type": "string",
+                        "example": "xxxxxxxxxxxxxxxx"
+                    },
+                    "runsOn": {
+                        "type": "string",
+                        "example": "DEVICE"
+                    },
+                    "created_date": {
+                        "type": "string",
+                        "example": "2020-08-23T12:37:03.142+0000"
+                    },
+                    "buildId": {
+                        "type": "string",
+                        "example": "5f4262e7a7b11b0001936a15"
+                    },
+                    "screenshot": {
+                        "type": "string",
+                        "example": ""
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string",
+                                    "example": "self"
+                                },
+                                "href": {
+                                    "type": "string",
+                                    "example": "http://localhost:8090/v1/devices/5f4262efa7b11b0001936a16"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "GetBuild": {
+                "properties": {
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string",
+                                    "example": "self"
+                                },
+                                "href": {
+                                    "type": "string",
+                                    "example": "http://localhost:8090/v1/builds{?page,size,sort}"
+                                }
+                            }
+                        }
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "example": "5f19b164adbe1d000136c868"
+                                },
+                                "runMode": {
+                                    "type": "string",
+                                    "example": "Distribution"
+                                },
+                                "buildStartTime": {
+                                    "type": "string",
+                                    "example": "2020-07-23T15:48:52.463+0000"
+                                },
+                                "buildEndTime": {
+                                    "type": "string",
+                                    "example": "2020-07-23T15:49:12.134+0000"
+                                },
+                                "buildScenarios": {
+                                    "type": "number",
+                                    "example": "1"
+                                },
+                                "buildSuccessRate": {
+                                    "type": "number",
+                                    "example": "1"
+                                },
+                                "scenariosCount": {
+                                    "type": "number",
+                                    "example": "1"
+                                },
+                                "scenarioSuccessRate": {
+                                    "type": "string",
+                                    "example": "100.0"
+                                },
+                                "crashlytics": {
+                                    "type": "string",
+                                    "format": "nullable"
+                                },
+                                "created_date": {
+                                    "type": "string",
+                                    "example": "2020-07-23T15:48:52.591+0000"
+                                },
+                                "content": {
+                                    "type": "array",
+                                    "items": {}
+                                },
+                                "links": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "rel": {
+                                                "type": "string",
+                                                "example": "self"
+                                            },
+                                            "href": {
+                                                "type": "string",
+                                                "example": "http://localhost:8090/v1/builds/5f19b164adbe1d000136c868"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "page": {
+                        "type": "object",
+                        "properties": {
+                            "size": {
+                                "type": "number",
+                                "example": "20"
+                            },
+                            "totalElements": {
+                                "type": "number",
+                                "example": "6"
+                            },
+                            "totalPages": {
+                                "type": "number",
+                                "example": "1"
+                            },
+                            "number": {
+                                "type": "number",
+                                "example": "0"
+                            }
+                        }
+                    }
+                }
+            },
+            "PostBuild": {
+                "properties": {
+                    "buildStartTime": {
+                        "type": "string",
+                        "example": "2020-08-21T16:13:15.636"
+                    },
+                    "buildEndTime": {
+                        "type": "string",
+                        "example": "2020-08-21T16:13:15.636"
+                    },
+                    "scenariosCount": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "scenarioSuccessRate": {
+                        "type": "string",
+                        "example": "0.0"
+                    },
+                    "id": {
+                        "type": "string",
+                        "example": "string",
+                        "nullable": true
+                    },
+                    "crashlytics": {
+                        "type": "string",
+                        "example": "string",
+                        "nullable": true
+                    },
+                    "buildScenario": {
+                        "type": "integer",
+                        "example": 0,
+                        "nullable": true
+                    },
+                    "runMode": {
+                        "type": "string",
+                        "example": "string",
+                        "nullable": true
+                    },
+                    "buildSuccessRate": {
+                        "type": "integer",
+                        "example": 0
+                    }
+                }
+            },
+            "PostBuildResponse": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "runMode": {
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "buildStartTime": {
+                        "type": "string",
+                        "example": "2020-08-21T16:13:15.636+0000"
+                    },
+                    "buildEndTime": {
+                        "type": "string",
+                        "example": "2020-08-21T16:13:15.636+0000"
+                    },
+                    "buildScenarios": {
+                        "type": "number",
+                        "example": "0"
+                    },
+                    "buildSuccessRate": {
+                        "type": "number",
+                        "example": "0"
+                    },
+                    "scenariosCount": {
+                        "type": "number",
+                        "example": "0"
+                    },
+                    "scenarioSuccessRate": {
+                        "type": "string",
+                        "example": "0"
+                    },
+                    "crashlytics": {
+                        "type": "string",
+                        "example": "string"
+                    },
+                    "created_date": {
+                        "type": "string",
+                        "example": "2020-08-21T12:04:49.517+0000"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string",
+                                    "example": "self"
+                                },
+                                "href": {
+                                    "type": "string",
+                                    "example": "http://localhost:8090/v1/builds/string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "headers": {}
+    }
+}
